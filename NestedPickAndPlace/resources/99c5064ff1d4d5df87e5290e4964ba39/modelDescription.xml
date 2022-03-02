@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fmiModelDescription
+  fmiVersion               = "2.0"
+  modelName="19926_PicknPlace2__MKS"
+  guid                     = "{Altair-MotionView: 19926_PicknPlace2__MKS.fmu: 1645625003.7462988}"
+  numberOfEventIndicators  = "0"
+  version                  = "2021.2.0.31"
+  generationTool           = "MotionView (Altair product)">
+ <CoSimulation
+  modelIdentifier                       ="msfmu"
+  canHandleVariableCommunicationStepSize="true"
+ />
+ <DefaultExperiment
+  stopTime    ="9.0"
+  tolerance   ="0.001"
+ />
+ <ModelVariables>
+  <!-- Plant Inputs  -->
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.command_signal"
+    description     = "Aktuator Z-Achse - Command Signal Force - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.u_input [0][0]"
+    valueReference  = "0"
+    causality       = "input">
+    <Real start="0."/> 
+  </ScalarVariable>
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.override_signal"
+    description     = "Aktuator Z-Achse - Override Inspire Motion Controller - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.u_input [0][1]"
+    valueReference  = "1"
+    causality       = "input">
+    <Real start="0."/> 
+  </ScalarVariable>
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.command_signal"
+    description     = "Aktuator Y-Achse - Command Signal Force - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.u_input [1][0]"
+    valueReference  = "2"
+    causality       = "input">
+    <Real start="0."/> 
+  </ScalarVariable>
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.override_signal"
+    description     = "Aktuator Y-Achse - Override Inspire Motion Controller - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.u_input [1][1]"
+    valueReference  = "3"
+    causality       = "input">
+    <Real start="0."/> 
+  </ScalarVariable>
+  <!-- Plant Outputs  -->
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.displacement"
+    description     = "Aktuator Z-Achse - Displacement - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.y_output [0][0]"
+    valueReference  = "4"
+    causality       = "output">
+    <Real/> 
+  </ScalarVariable>
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.velocity"
+    description     = "Aktuator Z-Achse - Velocity - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.y_output [0][1]"
+    valueReference  = "5"
+    causality       = "output">
+    <Real/> 
+  </ScalarVariable>
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.acceleration"
+    description     = "Aktuator Z-Achse - Acceleration - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.y_output [0][2]"
+    valueReference  = "6"
+    causality       = "output">
+    <Real/> 
+  </ScalarVariable>
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.desired_signal"
+    description     = "Aktuator Z-Achse - Reference Displacement - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Z_Achse.y_output [0][3]"
+    valueReference  = "7"
+    causality       = "output">
+    <Real/> 
+  </ScalarVariable>
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.displacement"
+    description     = "Aktuator Y-Achse - Displacement - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.y_output [1][0]"
+    valueReference  = "8"
+    causality       = "output">
+    <Real/> 
+  </ScalarVariable>
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.velocity"
+    description     = "Aktuator Y-Achse - Velocity - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.y_output [1][1]"
+    valueReference  = "9"
+    causality       = "output">
+    <Real/> 
+  </ScalarVariable>
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.acceleration"
+    description     = "Aktuator Y-Achse - Acceleration - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.y_output [1][2]"
+    valueReference  = "10"
+    causality       = "output">
+    <Real/> 
+  </ScalarVariable>
+  <ScalarVariable
+    name            = "sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.desired_signal"
+    description     = "Aktuator Y-Achse - Reference Displacement - MODEL.sys_I19926_PicknPlace2_I.sys_Aktuator_Y_Achse.y_output [1][3]"
+    valueReference  = "11"
+    causality       = "output">
+    <Real/> 
+  </ScalarVariable>
+  <!-- Parameters  -->
+    <!-- One parameter is reserved for the location of MS output files  -->
+  <ScalarVariable
+    name            = "Output file location"
+    description     = "MotionSolve output files location"
+    valueReference  = "0"
+    causality       = "parameter"
+    variability     = "fixed">
+      <!-- initial value  -->
+    <String
+      start         = "19926_PicknPlace2__MKS.mrf"/>
+  </ScalarVariable>
+    <!-- Model parameters  -->
+ </ModelVariables>
+ <ModelStructure>
+  <Outputs>
+   <Unknown index="5" dependencies=""/>
+   <Unknown index="6" dependencies=""/>
+   <Unknown index="7" dependencies=""/>
+   <Unknown index="8" dependencies=""/>
+   <Unknown index="9" dependencies=""/>
+   <Unknown index="10" dependencies=""/>
+   <Unknown index="11" dependencies=""/>
+   <Unknown index="12" dependencies=""/>
+  </Outputs>
+  <InitialUnknowns>
+   <Unknown index="5" dependencies=""/>
+   <Unknown index="6" dependencies=""/>
+   <Unknown index="7" dependencies=""/>
+   <Unknown index="8" dependencies=""/>
+   <Unknown index="9" dependencies=""/>
+   <Unknown index="10" dependencies=""/>
+   <Unknown index="11" dependencies=""/>
+   <Unknown index="12" dependencies=""/>
+  </InitialUnknowns>
+ </ModelStructure>
+</fmiModelDescription>
