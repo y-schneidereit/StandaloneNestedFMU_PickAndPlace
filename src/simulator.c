@@ -1,15 +1,11 @@
 #include <stdio.h>
+#include <windows.h>
+
+#include "fmi2Functions.h"
 
 // model specific constants
 # define GUID "{c51cfa80-b55d-4da4-e515-6444d8f4bda2}"
-
-#ifndef FMI2_FUNCTION_PREFIX
-#define FMI2_FUNCTION_PREFIX NestedPickAndPlace_
-#endif
-
-// no runtime resources
-#define RESOURCE_LOCATION "file:///C:/Users/schyan01/git/fmu_nestedpickandplace/NestedPickAndPlace/resources" // absolut path to the unziped fmu
-#include "fmi2Functions.h"
+#define RESOURCE_LOCATION "file:///C:/Users/schyan01/github/StandaloneNestedFMU/NestedPickAndPlace/resources" // absolut path to the unziped fmu
 
 // callback functions
 static void cb_logMessage(fmi2ComponentEnvironment componentEnvironment, fmi2String instanceName, fmi2Status status, fmi2String category, fmi2String message, ...) {
@@ -27,12 +23,54 @@ static void cb_freeMemory(void* obj) {
 #define CHECK_STATUS(S) { status = S; if (status != fmi2OK) goto TERMINATE; }
 
 int main(int argc, char *argv[]) {
+	HMODULE libraryHandle = LoadLibraryA("C:\\Users\\schyan01\\github\\StandaloneNestedFMU_PickAndPlace\\NestedPickAndPlace\\binaries\\win64\\NestedPickAndPlace.dll");
+
+	if (!libraryHandle)
+	{
+		return EXIT_FAILURE;
+	}
+
+	fmi2InstantiateTYPE* InstantiatePtr = NULL;
+	fmi2FreeInstanceTYPE* FreeInstancePtr = NULL;
+	fmi2SetupExperimentTYPE* SetupExperimentPtr = NULL;
+	fmi2EnterInitializationModeTYPE* EnterInitializationModePtr = NULL;
+	fmi2ExitInitializationModeTYPE* ExitInitializationModePtr = NULL;
+	fmi2SetRealTYPE* SetRealPtr = NULL;
+	fmi2GetRealTYPE* GetRealPtr = NULL;
+	fmi2DoStepTYPE* DoStepPtr = NULL;
+	fmi2TerminateTYPE* TerminatePtr = NULL;
+	fmi2GetTypesPlatformTYPE* GetTypesPlatform = NULL;
+	fmi2GetVersionTYPE* GetVersion = NULL;
+
+	InstantiatePtr = GetProcAddress(libraryHandle, "fmi2Instantiate");
+	FreeInstancePtr = GetProcAddress(libraryHandle, "fmi2FreeInstance");
+	SetupExperimentPtr = GetProcAddress(libraryHandle, "fmi2SetupExperiment");
+	EnterInitializationModePtr = GetProcAddress(libraryHandle, "fmi2EnterInitializationMode");
+	ExitInitializationModePtr = GetProcAddress(libraryHandle, "fmi2ExitInitializationMode");
+	SetRealPtr = GetProcAddress(libraryHandle, "fmi2SetReal");
+	GetRealPtr = GetProcAddress(libraryHandle, "fmi2GetReal");
+	DoStepPtr = GetProcAddress(libraryHandle, "fmi2DoStep");
+	TerminatePtr = GetProcAddress(libraryHandle, "fmi2Terminate");
+	GetTypesPlatform = GetProcAddress(libraryHandle, "fmi2GetTypesPlatform");
+	GetVersion = GetProcAddress(libraryHandle, "fmi2GetVersion");
+
+	if (NULL == InstantiatePtr || NULL == FreeInstancePtr || NULL == SetupExperimentPtr || NULL == EnterInitializationModePtr || NULL == ExitInitializationModePtr
+		|| NULL == SetRealPtr || NULL == GetRealPtr || NULL == DoStepPtr || NULL == TerminatePtr || NULL == GetTypesPlatform || NULL == GetVersion)
+	{
+		return EXIT_FAILURE;
+	}
 
 	fmi2Status status = fmi2OK;
 
 	fmi2CallbackFunctions callbacks = {cb_logMessage, cb_allocateMemory, cb_freeMemory, NULL, NULL};
+
+	fmi2String platform = GetTypesPlatform();
+	printf("%s\n", platform);
+
+	fmi2String version = GetVersion();
+	printf("%s\n", version);
 	
-	fmi2Component c = NestedPickAndPlace_fmi2Instantiate("instance1", fmi2CoSimulation, GUID, RESOURCE_LOCATION, &callbacks, fmi2False, fmi2False);
+	fmi2Component c = InstantiatePtr("instance1", fmi2CoSimulation, GUID, RESOURCE_LOCATION, &callbacks, fmi2False, fmi2False);
 	
 	if (!c) return 1;
 	
@@ -40,17 +78,19 @@ int main(int argc, char *argv[]) {
 	fmi2Real stepSize = 1;
 	
 	// Informs the FMU to setup the experiment. Must be called after fmi2Instantiate and befor fmi2EnterInitializationMode
-	CHECK_STATUS(NestedPickAndPlace_fmi2SetupExperiment(c, fmi2False, 0, Time, fmi2False, 0));
+	CHECK_STATUS(SetupExperimentPtr(c, fmi2False, 0, Time, fmi2False, 0));
 	
 	// Informs the FMU to enter Initialization Mode.
-	CHECK_STATUS(NestedPickAndPlace_fmi2EnterInitializationMode(c));
+	//CHECK_STATUS(EnterInitializationModePtr(c));
 	
 TERMINATE:
 
 	// clean up
 	if (status < fmi2Fatal) {
-		NestedPickAndPlace_fmi2FreeInstance(c);
+		FreeInstancePtr(c);
 	}
+
+	FreeLibrary(libraryHandle);
 	
 	return status;
 }
