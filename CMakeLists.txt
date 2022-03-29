@@ -2,21 +2,13 @@ cmake_minimum_required (VERSION 3.2)
 
 project (simulator)
 
-add_executable(simulator
-  include/fmi2Functions.h
-  include/fmi2FunctionTypes.h
-  include/fmi2TypesPlatform.h
-  
-  src/simulator.c
-  NestedPickAndPlace/sources/RTWCG_FMU2_target.c
-  NestedPickAndPlace/sources/NestedPickAndPlace.c
-  NestedPickAndPlace/sources/RTWCG_FMU_util.c
-  NestedPickAndPlace/sources/NestedPickAndPlace_fmu.c
+add_executable(simulator  
+	src/simulator.c
 )
 
 target_include_directories(simulator PUBLIC
-  include
-  NestedPickAndPlace/sources
+	include
+	NestedPickAndPlace/binaries/win64
 )
 
 if (MSVC)
