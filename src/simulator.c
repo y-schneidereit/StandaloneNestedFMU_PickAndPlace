@@ -4,8 +4,8 @@
 #include "fmi2Functions.h"
 
 // model specific constants
-# define GUID "{c51cfa80-b55d-4da4-e515-6444d8f4bda2}"
-#define RESOURCE_LOCATION "file:///C:/Users/schyan01/github/StandaloneNestedFMU/NestedPickAndPlace/resources" // absolut path to the unziped fmu
+#define GUID "{c51cfa80-b55d-4da4-e515-6444d8f4bda2}"
+#define RESOURCE_LOCATION "file:///C:/Users/schyan01/github/StandaloneNestedFMU/NestedPickAndPlace/resources/99c5064ff1d4d5df87e5290e4964ba39/resources" // absolut path to the unziped fmu
 
 // callback functions
 static void cb_logMessage(fmi2ComponentEnvironment componentEnvironment, fmi2String instanceName, fmi2Status status, fmi2String category, fmi2String message, ...) {
@@ -35,10 +35,10 @@ int main(int argc, char *argv[]) {
 	fmi2SetupExperimentTYPE* SetupExperimentPtr = NULL;
 	fmi2EnterInitializationModeTYPE* EnterInitializationModePtr = NULL;
 	fmi2ExitInitializationModeTYPE* ExitInitializationModePtr = NULL;
+	fmi2TerminateTYPE* TerminatePtr = NULL;
 	fmi2SetRealTYPE* SetRealPtr = NULL;
 	fmi2GetRealTYPE* GetRealPtr = NULL;
 	fmi2DoStepTYPE* DoStepPtr = NULL;
-	fmi2TerminateTYPE* TerminatePtr = NULL;
 	fmi2GetTypesPlatformTYPE* GetTypesPlatform = NULL;
 	fmi2GetVersionTYPE* GetVersion = NULL;
 
@@ -47,15 +47,15 @@ int main(int argc, char *argv[]) {
 	SetupExperimentPtr = GetProcAddress(libraryHandle, "fmi2SetupExperiment");
 	EnterInitializationModePtr = GetProcAddress(libraryHandle, "fmi2EnterInitializationMode");
 	ExitInitializationModePtr = GetProcAddress(libraryHandle, "fmi2ExitInitializationMode");
+	TerminatePtr = GetProcAddress(libraryHandle, "fmi2Terminate");
 	SetRealPtr = GetProcAddress(libraryHandle, "fmi2SetReal");
 	GetRealPtr = GetProcAddress(libraryHandle, "fmi2GetReal");
 	DoStepPtr = GetProcAddress(libraryHandle, "fmi2DoStep");
-	TerminatePtr = GetProcAddress(libraryHandle, "fmi2Terminate");
 	GetTypesPlatform = GetProcAddress(libraryHandle, "fmi2GetTypesPlatform");
 	GetVersion = GetProcAddress(libraryHandle, "fmi2GetVersion");
 
-	if (NULL == InstantiatePtr || NULL == FreeInstancePtr || NULL == SetupExperimentPtr || NULL == EnterInitializationModePtr || NULL == ExitInitializationModePtr
-		|| NULL == SetRealPtr || NULL == GetRealPtr || NULL == DoStepPtr || NULL == TerminatePtr || NULL == GetTypesPlatform || NULL == GetVersion)
+	if (NULL == InstantiatePtr || NULL == FreeInstancePtr || NULL == SetupExperimentPtr || NULL == EnterInitializationModePtr || NULL == ExitInitializationModePtr || NULL == TerminatePtr
+		|| NULL == SetRealPtr || NULL == GetRealPtr || NULL == DoStepPtr || NULL == GetTypesPlatform || NULL == GetVersion)
 	{
 		return EXIT_FAILURE;
 	}
@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
 	//CHECK_STATUS(EnterInitializationModePtr(c));
 	
 TERMINATE:
-
+	TerminatePtr(c);
 	// clean up
 	if (status < fmi2Fatal) {
 		FreeInstancePtr(c);
